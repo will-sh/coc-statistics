@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">Clan Information</h1>
+        
+        {% if clan %}
+        <div class="row">
+            <!-- Clan Overview Card -->
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Overview</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            {% if clan.badgeUrls and clan.badgeUrls.medium %}
+                            <img src="{{ clan.badgeUrls.medium }}" alt="Clan Badge" class="me-3" style="width: 80px;">
+                            {% endif %}
+                            <div>
+                                <h2 class="mb-1">{{ clan.name }}</h2>
+                                <p class="text-muted mb-0">#{{ clan.tag.replace('#', '') }}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <h5>Description</h5>
+                            <p>{{ clan.description }}</p>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-6">
+                                <p><strong>Level:</strong> {{ clan.clanLevel }}</p>
+                                <p><strong>Location:</strong> {{ clan.location.name if clan.location else 'Not specified' }}</p>
+                                <p><strong>Type:</strong> {{ clan.type|title }}</p>
+                            </div>
+                            <div class="col-6">
+                                <p><strong>Required Trophies:</strong> {{ clan.requiredTrophies }}</p>
+                                <p><strong>Members:</strong> {{ clan.members }}/50</p>
+                                <p><strong>War Frequency:</strong> {{ clan.warFrequency|title }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- War Statistics Card -->
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">War Statistics</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-4">
+                            <div class="col-md-6 text-center">
+                                <h2 class="mb-0">{{ clan.warWins }}</h2>
+                                <p class="text-muted">War Wins</p>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <h2 class="mb-0">{{ clan.warLosses if clan.warLosses else 'N/A' }}</h2>
+                                <p class="text-muted">War Losses</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-4">
+                            <div class="col-md-6 text-center">
+                                <h2 class="mb-0">{{ clan.warTies if clan.warTies else '0' }}</h2>
+                                <p class="text-muted">War Ties</p>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <h2 class="mb-0">{{ clan.warWinStreak }}</h2>
+                                <p class="text-muted">Win Streak</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-12">
+                                <h5>War League</h5>
+                                <div class="d-flex align-items-center">
+                                    {% if clan.warLeague and clan.warLeague.iconUrls and clan.warLeague.iconUrls.small %}
+                                    <img src="{{ clan.warLeague.iconUrls.small }}" alt="War League" class="me-2" style="width: 40px;">
+                                    {% endif %}
+                                    <span>{{ clan.warLeague.name if clan.warLeague else 'Not in a league' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Labels and Requirements Card -->
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">Labels & Requirements</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if clan.labels and clan.labels|length > 0 %}
+                        <h5>Clan Labels</h5>
+                        <div class="d-flex flex-wrap mb-4">
+                            {% for label in clan.labels %}
+                            <div class="me-3 mb-2 d-flex align-items-center">
+                                {% if label.iconUrls and label.iconUrls.small %}
+                                <img src="{{ label.iconUrls.small }}" alt="{{ label.name }}" style="width: 30px;" class="me-1">
+                                {% endif %}
+                                <span>{{ label.name }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        
+                        <h5>Requirements</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Required Trophies
+                                <span class="badge bg-primary rounded-pill">{{ clan.requiredTrophies }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Required Town Hall Level
+                                <span class="badge bg-primary rounded-pill">{{ clan.requiredTownhallLevel if clan.requiredTownhallLevel else 'Any' }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Required Builder Base Trophies
+                                <span class="badge bg-primary rounded-pill">{{ clan.requiredBuilderBaseTrophies if clan.requiredBuilderBaseTrophies else 'None' }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Capital Info Card -->
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0">Clan Capital</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if clan.clanCapital %}
+                        <div class="row mb-4">
+                            <div class="col-md-6 text-center">
+                                <h2 class="mb-0">{{ clan.clanCapital.capitalHallLevel }}</h2>
+                                <p class="text-muted">Capital Hall Level</p>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <h2 class="mb-0">{{ clan.clanCapital.districts|length if clan.clanCapital.districts else '0' }}</h2>
+                                <p class="text-muted">Districts</p>
+                            </div>
+                        </div>
+                        
+                        {% if clan.clanCapital.districts and clan.clanCapital.districts|length > 0 %}
+                        <h5>Districts</h5>
+                        <ul class="list-group">
+                            {% for district in clan.clanCapital.districts %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {{ district.name }}
+                                <span class="badge bg-info rounded-pill">Level {{ district.districtHallLevel }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        {% else %}
+                        <div class="alert alert-info">
+                            No Clan Capital information available.
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="alert alert-warning">
+            <h4 class="alert-heading">No Clan Data!</h4>
+            <p>Could not retrieve clan information. Please try again later.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

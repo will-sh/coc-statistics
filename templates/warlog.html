@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">Clan War Log</h1>
+        
+        <div class="card mb-4">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0">Recent Wars</h5>
+            </div>
+            <div class="card-body">
+                {% if wars %}
+                <div class="row">
+                    {% for war in wars %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 {% if war.result == 'win' %}border-success{% elif war.result == 'lose' %}border-danger{% else %}border-warning{% endif %}">
+                            <div class="card-header {% if war.result == 'win' %}bg-success{% elif war.result == 'lose' %}bg-danger{% else %}bg-warning{% endif %} text-white">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">{{ war.result|title }}</h5>
+                                    <span>{{ war.teamSize }} vs {{ war.teamSize }}</span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row mb-3">
+                                    <!-- Our Clan -->
+                                    <div class="col-6 text-center">
+                                        {% if war.clan.badgeUrls and war.clan.badgeUrls.small %}
+                                        <img src="{{ war.clan.badgeUrls.small }}" alt="Clan Badge" class="mb-2" style="width: 60px;">
+                                        {% endif %}
+                                        <h6>{{ war.clan.name }}</h6>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <div class="me-3">
+                                                <h4>{{ war.clan.stars }}</h4>
+                                                <small>Stars</small>
+                                            </div>
+                                            <div>
+                                                <h4>{{ war.clan.destructionPercentage|round(1) }}%</h4>
+                                                <small>Destruction</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- VS Divider -->
+                                    <div class="col-12 d-md-none text-center my-3">
+                                        <h5>VS</h5>
+                                    </div>
+                                    
+                                    <!-- Opponent Clan -->
+                                    <div class="col-6 text-center">
+                                        {% if war.opponent.badgeUrls and war.opponent.badgeUrls.small %}
+                                        <img src="{{ war.opponent.badgeUrls.small }}" alt="Opponent Badge" class="mb-2" style="width: 60px;">
+                                        {% endif %}
+                                        <h6>{{ war.opponent.name }}</h6>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <div class="me-3">
+                                                <h4>{{ war.opponent.stars }}</h4>
+                                                <small>Stars</small>
+                                            </div>
+                                            <div>
+                                                <h4>{{ war.opponent.destructionPercentage|round(1) }}%</h4>
+                                                <small>Destruction</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-center">
+                                    <p class="mb-1"><strong>War End Time:</strong></p>
+                                    <p>{{ war.endTime|replace('T', ' ')|replace('Z', ' UTC') }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="alert alert-info">
+                    <p class="mb-0">No war log data available.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
