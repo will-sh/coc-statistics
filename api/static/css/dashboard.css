@@ -1,0 +1,63 @@
+/* Dashboard specific styles */
+.stat-card {
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.welcome-banner {
+    background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%);
+}
+
+.card {
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Icon placeholders */
+.bi {
+    display: inline-block;
+    vertical-align: -0.125em;
+}
+
+.bi-shield-fill::before {
+    content: "🛡️";
+}
+
+.bi-trophy-fill::before {
+    content: "🏆";
+}
+
+.bi-people-fill::before {
+    content: "👥";
+}
+
+.bi-lightning-fill::before {
+    content: "⚡";
+}
+
+/* Dashboard stats */
+.quick-stat {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.quick-stat .card-body {
+    padding: 1.5rem;
+}
+
+.quick-stat .display-4 {
+    font-weight: 600;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .display-4 {
+        font-size: 2.5rem;
+    }
+}
