@@ -10,21 +10,28 @@
             <div class="card-header bg-danger text-white">
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">War Status: {{ war.state|title }}</h5>
-                    <span>{{ war.teamSize }} vs {{ war.teamSize }}</span>
+                    <span>{{ war.teamSize }} vs {{ war.teamSize }} ({{ war.attacksPerMember }} attacks per member)
+                    {% if war.battleModifier %}
+                    <span class="badge bg-warning ms-2">{{ war.battleModifier }}</span>
+                    {% endif %}
+                    </span>
                 </div>
             </div>
             <div class="card-body">
                 <!-- War Timer -->
                 {% if war.state == 'preparation' %}
                 <div class="alert alert-info text-center mb-4">
+                    <h5>Preparation Started: {{ war.preparationStartTime|replace('T', ' ')|replace('Z', ' UTC') }}</h5>
                     <h5>War Starts: {{ war.startTime|replace('T', ' ')|replace('Z', ' UTC') }}</h5>
                 </div>
                 {% elif war.state == 'inWar' %}
                 <div class="alert alert-warning text-center mb-4">
+                    <h5>War Started: {{ war.startTime|replace('T', ' ')|replace('Z', ' UTC') }}</h5>
                     <h5>War Ends: {{ war.endTime|replace('T', ' ')|replace('Z', ' UTC') }}</h5>
                 </div>
                 {% elif war.state == 'warEnded' %}
                 <div class="alert alert-secondary text-center mb-4">
+                    <h5>War Started: {{ war.startTime|replace('T', ' ')|replace('Z', ' UTC') }}</h5>
                     <h5>War Ended: {{ war.endTime|replace('T', ' ')|replace('Z', ' UTC') }}</h5>
                 </div>
                 {% endif %}
@@ -116,6 +123,8 @@
                                                 <th>TH</th>
                                                 <th>Attacks</th>
                                                 <th>Stars</th>
+                                                <th>Def</th>
+                                                <th>Best Def</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -135,7 +144,7 @@
                                                     {% endif %}
                                                 </td>
                                                 <td>
-                                                    {% if war.state != 'preparation' and member.attacks %}
+                                                    {% if member.attacks %}
                                                     {% set total_stars = 0 %}
                                                     {% for attack in member.attacks %}
                                                     {% set total_stars = total_stars + attack.stars %}
@@ -143,6 +152,20 @@
                                                     {{ total_stars }}
                                                     {% else %}
                                                     0
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if war.state != 'preparation' %}
+                                                    {{ member.opponentAttacks|default(0) }}
+                                                    {% else %}
+                                                    0
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if war.state != 'preparation' and member.bestOpponentAttack %}
+                                                    {{ member.bestOpponentAttack.stars }}★ ({{ member.bestOpponentAttack.destructionPercentage }}%)
+                                                    {% else %}
+                                                    -
                                                     {% endif %}
                                                 </td>
                                             </tr>
@@ -170,6 +193,8 @@
                                                 <th>TH</th>
                                                 <th>Attacks</th>
                                                 <th>Stars</th>
+                                                <th>Def</th>
+                                                <th>Best Def</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -189,7 +214,7 @@
                                                     {% endif %}
                                                 </td>
                                                 <td>
-                                                    {% if war.state != 'preparation' and member.attacks %}
+                                                    {% if member.attacks %}
                                                     {% set total_stars = 0 %}
                                                     {% for attack in member.attacks %}
                                                     {% set total_stars = total_stars + attack.stars %}
@@ -197,6 +222,20 @@
                                                     {{ total_stars }}
                                                     {% else %}
                                                     0
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if war.state != 'preparation' %}
+                                                    {{ member.opponentAttacks|default(0) }}
+                                                    {% else %}
+                                                    0
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if war.state != 'preparation' and member.bestOpponentAttack %}
+                                                    {{ member.bestOpponentAttack.stars }}★ ({{ member.bestOpponentAttack.destructionPercentage }}%)
+                                                    {% else %}
+                                                    -
                                                     {% endif %}
                                                 </td>
                                             </tr>

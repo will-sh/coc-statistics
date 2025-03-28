@@ -1,0 +1,378 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">Global & Country Rankings</h1>
+        
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Rankings</h5>
+                <div>
+                    <select id="location-selector" class="form-select form-select-sm">
+                        <option value="">Loading locations...</option>
+                    </select>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- Ranking Category Tabs -->
+                <ul class="nav nav-tabs mb-3" id="rankingTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="clans-tab" data-bs-toggle="tab" data-bs-target="#clans" type="button" role="tab" aria-controls="clans" aria-selected="true" data-ranking-type="clans">Clans</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="players-tab" data-bs-toggle="tab" data-bs-target="#players" type="button" role="tab" aria-controls="players" aria-selected="false" data-ranking-type="players">Players</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="players-builder-base-tab" data-bs-toggle="tab" data-bs-target="#players-builder-base" type="button" role="tab" aria-controls="players-builder-base" aria-selected="false" data-ranking-type="players-builder-base">Players (Builder Base)</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="clans-builder-base-tab" data-bs-toggle="tab" data-bs-target="#clans-builder-base" type="button" role="tab" aria-controls="clans-builder-base" aria-selected="false" data-ranking-type="clans-builder-base">Clans (Builder Base)</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="capitals-tab" data-bs-toggle="tab" data-bs-target="#capitals" type="button" role="tab" aria-controls="capitals" aria-selected="false" data-ranking-type="capitals">Capitals</button>
+                    </li>
+                </ul>
+                
+                <!-- Loading Indicator -->
+                <div id="loading-indicator" class="text-center py-5 d-none">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Loading rankings data...</p>
+                </div>
+                
+                <!-- Error Message -->
+                <div id="error-message" class="alert alert-danger d-none" role="alert">
+                    An error occurred while fetching rankings data. Please try again.
+                </div>
+                
+                <!-- Tab Content -->
+                <div class="tab-content" id="rankingTabsContent">
+                    <!-- Clans Tab -->
+                    <div class="tab-pane fade show active" id="clans" role="tabpanel" aria-labelledby="clans-tab">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Rank</th>
+                                        <th>Clan</th>
+                                        <th>Level</th>
+                                        <th>Members</th>
+                                        <th>Trophies</th>
+                                        <th>Location</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="clans-table-body">
+                                    <!-- Clan rankings will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Players Tab -->
+                    <div class="tab-pane fade" id="players" role="tabpanel" aria-labelledby="players-tab">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Rank</th>
+                                        <th>Player</th>
+                                        <th>Level</th>
+                                        <th>Trophies</th>
+                                        <th>Clan</th>
+                                        <th>Town Hall</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="players-table-body">
+                                    <!-- Player rankings will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Players Builder Base Tab -->
+                    <div class="tab-pane fade" id="players-builder-base" role="tabpanel" aria-labelledby="players-builder-base-tab">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Rank</th>
+                                        <th>Player</th>
+                                        <th>Level</th>
+                                        <th>Builder Trophies</th>
+                                        <th>Clan</th>
+                                        <th>Builder Hall</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="players-builder-base-table-body">
+                                    <!-- Player builder base rankings will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Clans Builder Base Tab -->
+                    <div class="tab-pane fade" id="clans-builder-base" role="tabpanel" aria-labelledby="clans-builder-base-tab">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Rank</th>
+                                        <th>Clan</th>
+                                        <th>Level</th>
+                                        <th>Members</th>
+                                        <th>Builder Trophies</th>
+                                        <th>Location</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="clans-builder-base-table-body">
+                                    <!-- Clan builder base rankings will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Capitals Tab -->
+                    <div class="tab-pane fade" id="capitals" role="tabpanel" aria-labelledby="capitals-tab">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Rank</th>
+                                        <th>Clan</th>
+                                        <th>Level</th>
+                                        <th>Members</th>
+                                        <th>Capital Points</th>
+                                        <th>Location</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="capitals-table-body">
+                                    <!-- Capital rankings will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Elements
+        const locationSelector = document.getElementById('location-selector');
+        const rankingTabs = document.querySelectorAll('[data-ranking-type]');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const errorMessage = document.getElementById('error-message');
+        
+        // Current state
+        let currentLocationId = 'global';
+        let currentRankingType = 'clans';
+        
+        // Fetch locations and populate the selector
+        async function fetchLocations() {
+            try {
+                const response = await fetch('/api/locations');
+                if (!response.ok) throw new Error('Failed to fetch locations');
+                
+                const data = await response.json();
+                const items = data.items || [];
+                
+                // Clear the selector
+                locationSelector.innerHTML = '';
+                
+                // Add global option
+                const globalOption = document.createElement('option');
+                globalOption.value = 'global';
+                globalOption.textContent = 'Global';
+                locationSelector.appendChild(globalOption);
+                
+                // Add country options
+                items.filter(location => location.isCountry).forEach(location => {
+                    const option = document.createElement('option');
+                    option.value = location.id;
+                    option.textContent = location.name;
+                    locationSelector.appendChild(option);
+                });
+                
+                // Fetch initial rankings
+                fetchRankings(currentLocationId, currentRankingType);
+            } catch (error) {
+                console.error('Error fetching locations:', error);
+                errorMessage.textContent = 'Failed to load locations. Please try again.';
+                errorMessage.classList.remove('d-none');
+            }
+        }
+        
+        // Fetch rankings for the selected location and type
+        async function fetchRankings(locationId, rankingType) {
+            try {
+                // Show loading indicator
+                loadingIndicator.classList.remove('d-none');
+                errorMessage.classList.add('d-none');
+                
+                // Clear current table
+                const tableBody = document.getElementById(`${rankingType}-table-body`);
+                tableBody.innerHTML = '';
+                
+                // Fetch rankings
+                const response = await fetch(`/api/rankings/${locationId}/${rankingType}`);
+                if (!response.ok) throw new Error(`Failed to fetch ${rankingType} rankings`);
+                
+                const data = await response.json();
+                const items = data.items || [];
+                
+                // Populate table based on ranking type
+                switch (rankingType) {
+                    case 'clans':
+                        populateClansTable(items, tableBody);
+                        break;
+                    case 'players':
+                        populatePlayersTable(items, tableBody);
+                        break;
+                    case 'players-builder-base':
+                        populatePlayersBuilderBaseTable(items, tableBody);
+                        break;
+                    case 'clans-builder-base':
+                        populateClansBuilderBaseTable(items, tableBody);
+                        break;
+                    case 'capitals':
+                        populateCapitalsTable(items, tableBody);
+                        break;
+                }
+                
+                // Hide loading indicator
+                loadingIndicator.classList.add('d-none');
+            } catch (error) {
+                console.error(`Error fetching ${rankingType} rankings:`, error);
+                errorMessage.textContent = `Failed to load ${rankingType} rankings. Please try again.`;
+                errorMessage.classList.remove('d-none');
+                loadingIndicator.classList.add('d-none');
+            }
+        }
+        
+        // Populate clans table
+        function populateClansTable(clans, tableBody) {
+            clans.forEach(clan => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${clan.rank}</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            ${clan.badgeUrls?.small ? `<img src="${clan.badgeUrls.small}" alt="Clan Badge" class="me-2" style="width: 30px;">` : ''}
+                            <a href="/clan/${clan.tag.replace('#', '')}">${clan.name}</a>
+                        </div>
+                    </td>
+                    <td>${clan.clanLevel}</td>
+                    <td>${clan.members}</td>
+                    <td>${clan.clanPoints}</td>
+                    <td>${clan.location?.name || 'N/A'}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Populate players table
+        function populatePlayersTable(players, tableBody) {
+            players.forEach(player => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${player.rank}</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            ${player.league?.iconUrls?.small ? `<img src="${player.league.iconUrls.small}" alt="League" class="me-2" style="width: 30px;">` : ''}
+                            <a href="/player/${player.tag.replace('#', '')}">${player.name}</a>
+                        </div>
+                    </td>
+                    <td>${player.expLevel}</td>
+                    <td>${player.trophies}</td>
+                    <td>${player.clan ? `<a href="/clan/${player.clan.tag.replace('#', '')}">${player.clan.name}</a>` : 'N/A'}</td>
+                    <td>${player.townHallLevel || 'N/A'}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Populate players builder base table
+        function populatePlayersBuilderBaseTable(players, tableBody) {
+            players.forEach(player => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${player.rank}</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            ${player.builderBaseLeague?.iconUrls?.small ? `<img src="${player.builderBaseLeague.iconUrls.small}" alt="League" class="me-2" style="width: 30px;">` : ''}
+                            <a href="/player/${player.tag.replace('#', '')}">${player.name}</a>
+                        </div>
+                    </td>
+                    <td>${player.expLevel}</td>
+                    <td>${player.builderBaseTrophies}</td>
+                    <td>${player.clan ? `<a href="/clan/${player.clan.tag.replace('#', '')}">${player.clan.name}</a>` : 'N/A'}</td>
+                    <td>${player.builderHallLevel || 'N/A'}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Populate clans builder base table
+        function populateClansBuilderBaseTable(clans, tableBody) {
+            clans.forEach(clan => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${clan.rank}</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            ${clan.badgeUrls?.small ? `<img src="${clan.badgeUrls.small}" alt="Clan Badge" class="me-2" style="width: 30px;">` : ''}
+                            <a href="/clan/${clan.tag.replace('#', '')}">${clan.name}</a>
+                        </div>
+                    </td>
+                    <td>${clan.clanLevel}</td>
+                    <td>${clan.members}</td>
+                    <td>${clan.builderBaseTrophies || clan.clanBuilderBasePoints}</td>
+                    <td>${clan.location?.name || 'N/A'}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Populate capitals table
+        function populateCapitalsTable(clans, tableBody) {
+            clans.forEach(clan => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${clan.rank}</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            ${clan.badgeUrls?.small ? `<img src="${clan.badgeUrls.small}" alt="Clan Badge" class="me-2" style="width: 30px;">` : ''}
+                            <a href="/clan/${clan.tag.replace('#', '')}">${clan.name}</a>
+                        </div>
+                    </td>
+                    <td>${clan.clanLevel}</td>
+                    <td>${clan.members}</td>
+                    <td>${clan.clanCapitalPoints}</td>
+                    <td>${clan.location?.name || 'N/A'}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Event listeners
+        locationSelector.addEventListener('change', function() {
+            currentLocationId = this.value;
+            fetchRankings(currentLocationId, currentRankingType);
+        });
+        
+        rankingTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                currentRankingType = this.dataset.rankingType;
+                fetchRankings(currentLocationId, currentRankingType);
+            });
+        });
+        
+        // Initialize
+        fetchLocations();
+    });
+</script>
+{% endblock %}

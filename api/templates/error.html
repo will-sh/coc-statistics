@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="alert alert-danger">
+            <h4 class="alert-heading">Error!</h4>
+            <p>{{ error }}</p>
+            <hr>
+            <p class="mb-0">Please try again later or contact the administrator.</p>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">How to Get Your Clash of Clans API Token</h5>
+            </div>
+            <div class="card-body">
+                <p>Follow these steps to create and set up your Clash of Clans API token:</p>
+                
+                <div class="step-guide">
+                    <h6 class="step-title">Step 1: Log into the CoC Developer Portal</h6>
+                    <div class="row mb-4">
+                        <div class="col-md-8">
+                            <p>Visit the <a href="https://developer.clashofclans.com" target="_blank">Clash of Clans Developer Portal</a> and click the "Log In" button in the top right corner.</p>
+                            <p>If you don't have an account, you'll need to create one using your Supercell ID.</p>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <!-- Step 1 Screenshot will be inserted here -->
+                            <img src="{{ url_for('static', filename='images/api-login.png') }}" alt="step1" class="img-fluid border rounded">
+                        </div>
+                    </div>
+                    
+                    <h6 class="step-title">Step 2: Navigate to My Account</h6>
+                    <div class="row mb-4">
+                        <div class="col-md-8">
+                            <p>Once logged in, click on your username in the top right corner and select "My Account" from the dropdown menu.</p>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <!-- Step 2 Screenshot will be inserted here -->
+                            <img src="{{ url_for('static', filename='images/api-my-account.png') }}" alt="step2" class="img-fluid border rounded">
+                        </div>
+                    </div>
+                    
+                    <h6 class="step-title">Step 3: Create a New API Key</h6>
+                    <div class="row mb-4">
+                        <div class="col-md-8">
+                            <p>In the "Keys" section, click the "Create New Key" button.</p>
+                            <p>Enter a description for your key (e.g., "My CoC Statistics App").</p>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <!-- Step 3 Screenshot will be inserted here -->
+                            <img src="{{ url_for('static', filename='images/api-create-key.png') }}" alt="step3" class="img-fluid border rounded">
+                        </div>
+                    </div>
+                    
+                    <h6 class="step-title">Step 4: Set Allowed IP Addresses</h6>
+                    <div class="row mb-4">
+                        <div class="col-md-8">
+                            <p>In the "Allowed IP addresses" field, set the ip from the error on this page</p>
+                        </div>
+                    </div>
+                    
+                    <h6 class="step-title">Step 5: Copy Your API Token</h6>
+                    <div class="row mb-4">
+                        <div class="col-md-8">
+                            <p>After creating the key, you'll see your new API token. Copy it to your clipboard.</p>
+                        </div>
+                    </div>
+                    
+                    <h6 class="step-title">Step 6: Enter Your Token in This Application</h6>
+                    <div class="row mb-4">
+                        <div class="col-md-8">
+                            <p>Return to this website and click the "Set API Token" button in the navigation bar.</p>
+                            <p>Paste your API token into the input field and click "Save Token".</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-4">
+            <a href="/" class="btn btn-primary">Go Back to Home</a>
+            <a href="https://developer.clashofclans.com" target="_blank" class="btn btn-outline-primary ms-2">Go to CoC Developer Portal</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .step-title {
+        background-color: #f8f9fa;
+        padding: 10px;
+        border-left: 4px solid #0d6efd;
+        margin-bottom: 15px;
+    }
+    .screenshot-placeholder {
+        background-color: #e9ecef;
+        border: 1px dashed #6c757d;
+        border-radius: 5px;
+        padding: 30px 15px;
+        margin-top: 10px;
+    }
+</style>
+{% endblock %}
